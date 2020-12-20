@@ -15,3 +15,8 @@ Learn generics and brush up on some basics.
 - iterator: Iterator<E>
 - subList(fromIndex: Int, toIndex: Int): List<E>
 - filter: List<E>(List of element which matches the given predicate)
+
+## Bonus
+
+- Write unit tests
+- Setup Github actions (CI/CD pipeline)
