@@ -2,7 +2,7 @@
 
 Learn generics and brush up on some basics.
 
-## What exactly are we developing
+## What exactly am I developing
 
 - List - Interface
 - ArrayList - List implementation
