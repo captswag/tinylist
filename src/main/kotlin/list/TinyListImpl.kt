@@ -1,19 +1,62 @@
 package list
 
-class TinyListImpl<T>: TinyList<T> {
-    private val list = mutableListOf<T>()
+class TinyListImpl<T : Any> : TinyList<T>, Iterator<T> {
 
+    private var currentIndex = 0
+    private var iteratorIndex = 0
+    private var size = 5 // Size keeps on changing when the currentIndex reaches size - 1
+    private var elements = arrayOfNulls<Any>(size)
+
+    /**
+     * Element is added to the current value of index.
+     * So basically if you just created an empty TinyList, the underlying system would be as follows.
+     * currentIndex = 0
+     * elements[0] = element
+     * currentIndex = currentIndex + 1
+     */
     override fun add(element: T) {
-        list.add(element)
+        if (currentIndex < size) {
+            elements[currentIndex++] = element
+        } else {
+            // Double the size of the array
+            size *= 2
+            elements = elements.copyOf(size)
+            add(element)
+        }
     }
 
     override fun removeAt(index: Int) {
-        list.removeAt(index)
     }
 
-    override fun size(): Int = list.size
+    /**
+     * Following the example of adding an element to a newly created TinyList, the currentIndex
+     * in such a situation will be 1 and that's the size of the TinyList.
+     */
+    override fun size(): Int = currentIndex
 
-    override fun indexOf(element: T): Int = list.indexOf(element)
+    override fun indexOf(element: T): Int {
+        elements.forEachIndexed { index, item ->
+            if (item == element) return index
+        }
+        return -1
+    }
 
-    override fun elementAt(index: Int): T = list.elementAt(index)
+    @Suppress("UNCHECKED_CAST")
+    override fun elementAt(index: Int): T {
+        val element = elements[index]
+        return element as T
+    }
+
+    // Always reset iteratorIndex when iterator() is called
+    operator fun iterator(): Iterator<T> {
+        iteratorIndex = 0
+        return this
+    }
+
+    override fun hasNext(): Boolean = iteratorIndex < currentIndex
+
+    @Suppress("UNCHECKED_CAST")
+    override fun next(): T {
+        return elements[iteratorIndex++] as T
+    }
 }
