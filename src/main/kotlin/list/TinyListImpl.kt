@@ -43,8 +43,18 @@ class TinyListImpl<T : Any> : TinyList<T>, Iterator<T> {
 
     @Suppress("UNCHECKED_CAST")
     override fun elementAt(index: Int): T {
-        val element = elements[index]
-        return element as T
+        if (index < currentIndex) {
+            val element = elements[index]
+            return element as T
+        } else {
+            val message =
+                if (size() == 0) {
+                    "Empty list doesn't contain element at index $index"
+                } else {
+                    "Index: $index, Size: ${size()}"
+                }
+            throw IndexOutOfBoundsException(message)
+        }
     }
 
     // Always reset iteratorIndex when iterator() is called
