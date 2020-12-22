@@ -26,7 +26,11 @@ class TinyListImpl<T : Any> : TinyList<T>, Iterator<T> {
     }
 
     override fun removeAt(index: Int) {
-        // Error message java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+        if (index < currentIndex) {
+            // Go ahead and remove
+        } else {
+            throw IndexOutOfBoundsException("Index $index out of bounds for length ${size()}")
+        }
     }
 
     /**
@@ -76,6 +80,7 @@ class TinyListImpl<T : Any> : TinyList<T>, Iterator<T> {
      * based on the variable it's pointed to. So for two different objects, they're always false,
      * even though the underlying objects have the same list elements.
      */
+    @Suppress("UNCHECKED_CAST")
     override fun equals(other: Any?): Boolean {
         try {
             val otherList = other as TinyList<T> // Can result in ClassCastException

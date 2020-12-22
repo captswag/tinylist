@@ -34,6 +34,19 @@ internal class TinyListImplTest {
     }
 
     @ParameterizedTest
+    @ValueSource(ints = [0, 5])
+    @DisplayName("removeAt() failure case - index > size")
+    fun `removeAt failure case`(size: Int) {
+        addElements(tinyList, size)
+        val index = 10
+        val exception = Assertions.assertThrows(IndexOutOfBoundsException::class.java) {
+            tinyList.removeAt(index)
+        }
+        val expectedMessage = "Index $index out of bounds for length $size"
+        Assertions.assertEquals(expectedMessage, exception.message)
+    }
+
+    @ParameterizedTest
     @ValueSource(ints = [0, 5, 11, 101])
     fun size(number: Int) {
         addElements(tinyList, number)
@@ -77,7 +90,7 @@ internal class TinyListImplTest {
     }
 
     @Test
-    @DisplayName("elementAt() failure case - size 2 list")
+    @DisplayName("elementAt() failure case - index > size")
     fun `elementAt failure case 2`() {
         val size = 2
         addElements(tinyList, size)
