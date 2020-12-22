@@ -57,7 +57,7 @@ internal class TinyListImplTest {
     }
 
     @Test
-    @DisplayName("equals() failure cases - different size")
+    @DisplayName("equals() failure case - different size")
     fun `equals failure case 1`() {
         addElements(tinyList, 5)
         val expectedList: TinyList<Int> = TinyListImpl()
@@ -66,7 +66,7 @@ internal class TinyListImplTest {
     }
 
     @Test
-    @DisplayName("equals() failure cases - same size, different list elements")
+    @DisplayName("equals() failure case - same size, different list elements")
     fun `equals failure case 2`() {
         addElements(tinyList, 5)
         val expectedList: TinyList<Int> = TinyListImpl()
@@ -83,5 +83,40 @@ internal class TinyListImplTest {
     fun size(number: Int) {
         addElements(tinyList, number)
         Assertions.assertEquals(number, tinyList.size())
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = [0, 5, 11, 101]) // index is the same as the element at the index position
+    fun elementAt(index: Int) {
+        val size = 102
+        addElements(tinyList, size)
+        val actualResult = tinyList.elementAt(index)
+        Assertions.assertEquals(index, actualResult)
+    }
+
+    @Test
+    @DisplayName("elementAt() failure case - size 0 list")
+    fun `elementAt failure case 1`() {
+        val size = 0
+        addElements(tinyList, size)
+        val exception = Assertions.assertThrows(
+            IndexOutOfBoundsException::class.java
+        ) {
+            tinyList.elementAt(0)
+        }
+        Assertions.assertEquals("Empty list doesn't contain element at index 0", exception.message)
+    }
+
+    @Test
+    @DisplayName("elementAt() failure case - size 0 list")
+    fun `elementAt failure case 2`() {
+        val size = 2
+        addElements(tinyList, size)
+        val exception = Assertions.assertThrows(
+            IndexOutOfBoundsException::class.java
+        ) {
+            tinyList.elementAt(2)
+        }
+        Assertions.assertEquals("Index: 2, Size: 2", exception.message)
     }
 }
