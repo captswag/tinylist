@@ -33,6 +33,55 @@ internal class TinyListImplTest {
         Assertions.assertEquals(tinyList, expectedList)
     }
 
+    @Test
+    @DisplayName("removeAt success case - remove one element")
+    fun `removeAt success case 1`() {
+        val size = 6
+        addElements(tinyList, size)
+        tinyList.removeAt(3) // tinyList = 0, 1, 2, 4, 5
+        val expectedList: TinyList<Int> = TinyListImpl()
+        expectedList.add(0)
+        expectedList.add(1)
+        expectedList.add(2)
+        expectedList.add(4)
+        expectedList.add(5)
+        Assertions.assertEquals(expectedList, tinyList)
+    }
+
+    @Test
+    @DisplayName("removeAt success case - remove all elements")
+    fun `removeAt success case 2`() {
+        val size = 11
+        addElements(tinyList, size)
+        var index = 0
+        while (index < size) {
+            tinyList.removeAt(index)
+            index++
+        }
+        val expectedList: TinyList<Int> = TinyListImpl()
+        Assertions.assertEquals(expectedList, tinyList)
+    }
+
+    @Test
+    @DisplayName("removeAt success case - remove elements at random indices")
+    fun `removeAt success case 3`() {
+        val size = 11
+        addElements(tinyList, size)
+        tinyList.removeAt(0) // 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+        tinyList.removeAt(8) // 1, 2, 3, 4, 5, 6, 7, 8, 10
+        tinyList.removeAt(7) // 1, 2, 3, 4, 5, 6, 7, 10
+        tinyList.removeAt(3) // 1, 2, 3, 5, 6, 7, 10
+        tinyList.removeAt(5) // 1, 2, 3, 5, 6, 10
+        tinyList.removeAt(1) // 1, 3, 5, 6, 10
+        val expectedList: TinyList<Int> = TinyListImpl()
+        expectedList.add(1)
+        expectedList.add(3)
+        expectedList.add(5)
+        expectedList.add(6)
+        expectedList.add(10)
+        Assertions.assertEquals(expectedList, tinyList)
+    }
+
     @ParameterizedTest
     @ValueSource(ints = [0, 5])
     @DisplayName("removeAt() failure case - index > size")
