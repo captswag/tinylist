@@ -59,4 +59,29 @@ class TinyListImpl<T : Any> : TinyList<T>, Iterator<T> {
     override fun next(): T {
         return elements[iteratorIndex++] as T
     }
+
+    /**
+     * equals() function is required to be overridden because == checks for two TinyLists are checked
+     * based on the variable it's pointed to. So for two different objects, they're always false,
+     * even though the underlying objects have the same list elements.
+     */
+    override fun equals(other: Any?): Boolean {
+        try {
+            val otherList = other as TinyList<T> // Can result in ClassCastException
+            if (size() != otherList.size()) {
+                return false
+            } else {
+                var index = 0
+                while (index < size()) {
+                    if (elementAt(index) != otherList.elementAt(index)) {
+                        return false
+                    }
+                    index++
+                }
+                return true
+            }
+        } catch (exception: ClassCastException) {
+            return false
+        }
+    }
 }
