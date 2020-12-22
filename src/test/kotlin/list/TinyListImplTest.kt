@@ -26,6 +26,20 @@ internal class TinyListImplTest {
 
     @ParameterizedTest
     @ValueSource(ints = [0, 5, 11, 101])
+    fun indexOf(element: Int) { // element = 5 will be at index 5 in the list
+        val size = 101
+        addElements(tinyList, size)
+        val actualIndex = tinyList.indexOf(element)
+        val expectedIndex: Int = if (element >= size) {
+            -1
+        } else {
+            element
+        }
+        Assertions.assertEquals(actualIndex, expectedIndex)
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = [0, 5, 11, 101])
     fun add(number: Int) {
         addElements(tinyList, number)
         val expectedList = TinyListImpl<Int>()
