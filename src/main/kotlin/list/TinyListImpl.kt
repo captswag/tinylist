@@ -48,7 +48,7 @@ class TinyListImpl<T : Any> : TinyList<T>, Iterator<T> {
     }
 
     // Always reset iteratorIndex when iterator() is called
-    operator fun iterator(): Iterator<T> {
+    override operator fun iterator(): Iterator<T> {
         iteratorIndex = 0
         return this
     }
