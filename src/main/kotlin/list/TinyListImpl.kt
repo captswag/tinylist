@@ -26,6 +26,7 @@ class TinyListImpl<T : Any> : TinyList<T>, Iterator<T> {
     }
 
     override fun removeAt(index: Int) {
+        // Error message java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
     }
 
     /**

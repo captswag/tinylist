@@ -26,6 +26,22 @@ internal class TinyListImplTest {
 
     @ParameterizedTest
     @ValueSource(ints = [0, 5, 11, 101])
+    fun add(number: Int) {
+        addElements(tinyList, number)
+        val expectedList = TinyListImpl<Int>()
+        addElements(expectedList, number)
+        Assertions.assertEquals(tinyList, expectedList)
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = [0, 5, 11, 101])
+    fun size(number: Int) {
+        addElements(tinyList, number)
+        Assertions.assertEquals(number, tinyList.size())
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = [0, 5, 11, 101])
     fun indexOf(element: Int) { // element = 5 will be at index 5 in the list
         val size = 101
         addElements(tinyList, size)
@@ -39,12 +55,38 @@ internal class TinyListImplTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = [0, 5, 11, 101])
-    fun add(number: Int) {
-        addElements(tinyList, number)
-        val expectedList = TinyListImpl<Int>()
-        addElements(expectedList, number)
-        Assertions.assertEquals(tinyList, expectedList)
+    @ValueSource(ints = [0, 5, 11, 101]) // index is the same as the element at the index position
+    fun elementAt(index: Int) {
+        val size = 102
+        addElements(tinyList, size)
+        val actualResult = tinyList.elementAt(index)
+        Assertions.assertEquals(index, actualResult)
+    }
+
+    @Test
+    @DisplayName("elementAt() failure case - size 0 list")
+    fun `elementAt failure case 1`() {
+        val size = 0
+        addElements(tinyList, size)
+        val exception = Assertions.assertThrows(
+            IndexOutOfBoundsException::class.java
+        ) {
+            tinyList.elementAt(0)
+        }
+        Assertions.assertEquals("Empty list doesn't contain element at index 0", exception.message)
+    }
+
+    @Test
+    @DisplayName("elementAt() failure case - size 2 list")
+    fun `elementAt failure case 2`() {
+        val size = 2
+        addElements(tinyList, size)
+        val exception = Assertions.assertThrows(
+            IndexOutOfBoundsException::class.java
+        ) {
+            tinyList.elementAt(2)
+        }
+        Assertions.assertEquals("Index: 2, Size: 2", exception.message)
     }
 
     @ParameterizedTest
@@ -76,47 +118,5 @@ internal class TinyListImplTest {
         expectedList.add(3)
         expectedList.add(5)
         Assertions.assertFalse(expectedList == tinyList)
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints = [0, 5, 11, 101])
-    fun size(number: Int) {
-        addElements(tinyList, number)
-        Assertions.assertEquals(number, tinyList.size())
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints = [0, 5, 11, 101]) // index is the same as the element at the index position
-    fun elementAt(index: Int) {
-        val size = 102
-        addElements(tinyList, size)
-        val actualResult = tinyList.elementAt(index)
-        Assertions.assertEquals(index, actualResult)
-    }
-
-    @Test
-    @DisplayName("elementAt() failure case - size 0 list")
-    fun `elementAt failure case 1`() {
-        val size = 0
-        addElements(tinyList, size)
-        val exception = Assertions.assertThrows(
-            IndexOutOfBoundsException::class.java
-        ) {
-            tinyList.elementAt(0)
-        }
-        Assertions.assertEquals("Empty list doesn't contain element at index 0", exception.message)
-    }
-
-    @Test
-    @DisplayName("elementAt() failure case - size 0 list")
-    fun `elementAt failure case 2`() {
-        val size = 2
-        addElements(tinyList, size)
-        val exception = Assertions.assertThrows(
-            IndexOutOfBoundsException::class.java
-        ) {
-            tinyList.elementAt(2)
-        }
-        Assertions.assertEquals("Index: 2, Size: 2", exception.message)
     }
 }
