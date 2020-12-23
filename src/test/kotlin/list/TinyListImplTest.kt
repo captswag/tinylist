@@ -53,10 +53,8 @@ internal class TinyListImplTest {
     fun `removeAt success case 2`() {
         val size = 11
         addElements(tinyList, size)
-        var index = 0
-        while (index < size) {
-            tinyList.removeAt(index)
-            index++
+        for (i in 0..10) {
+            tinyList.removeAt(0)
         }
         val expectedList: TinyList<Int> = TinyListImpl()
         Assertions.assertEquals(expectedList, tinyList)

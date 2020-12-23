@@ -27,7 +27,10 @@ class TinyListImpl<T : Any> : TinyList<T>, Iterator<T> {
 
     override fun removeAt(index: Int) {
         if (index < currentIndex) {
-            // Go ahead and remove
+            for (i in index until currentIndex) {
+                elements[i] = elements[i + 1]
+            }
+            currentIndex--
         } else {
             throw IndexOutOfBoundsException("Index $index out of bounds for length ${size()}")
         }
