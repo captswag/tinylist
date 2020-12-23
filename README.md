@@ -1,22 +1,28 @@
-## Objective
+## TinyList
 
-Learn generics and brush up on some basics.
+An ArrayList with very limited features.
 
-## What exactly am I developing
+### Why TinyList?
 
-- List - Interface
-- ArrayList - List implementation
+It has been a while since I did something basic. ArrayList makes use of generics, higher order functions (lambdas),
+JUnit 5 and Github actions.
 
-## Various methods supported by List
+### TinyList provides the following methods
 
-- size(): Int (integer value)
-- indexOf(element: E): Int (true/false) (Returns index of first element in the list/else -1)
-- elementAt(index: Int): E (Eg exception: java.lang.IndexOutOfBoundsException: Index: 1, Size: 1)
-- iterator: Iterator<E>
-- subList(fromIndex: Int, toIndex: Int): List<E>
-- filter: List<E>(List of element which matches the given predicate)
+```kotlin
+interface TinyList<T : Any> {
+    fun add(element: T)
+    fun removeAt(index: Int) // Throws IndexOutOfBoundsException if index >= size
+    fun size(): Int
+    fun indexOf(element: T): Int // Returns -1 if not found in the list
+    fun elementAt(index: Int): T // Throws IndexOutOfBoundsException if index >= size
+    operator fun iterator(): Iterator<T>
+    fun filter(predicate: (T) -> Boolean): TinyList<T>
+    fun <R : Any> map(transform: (T) -> R): TinyList<R>
+}
+```
 
-## Bonus
+### Bonus code
 
-- Write unit tests
-- Setup Github actions (CI/CD pipeline)
+- Write unit tests (JUnit 5)
+- Setup Github actions (CI pipeline to run unit tests whenever a PR is raised to master)
