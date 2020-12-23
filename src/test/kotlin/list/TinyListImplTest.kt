@@ -19,6 +19,14 @@ internal class TinyListImplTest {
         }
     }
 
+    private fun addEvenNumbers(tinyList: TinyList<Int>, number: Int) {
+        var index = 0
+        while (index < number) {
+            tinyList.add(index)
+            index += 2
+        }
+    }
+
     @BeforeEach
     fun setUp() {
         tinyList = TinyListImpl()
@@ -178,5 +186,16 @@ internal class TinyListImplTest {
         expectedList.add(3)
         expectedList.add(5)
         Assertions.assertFalse(expectedList == tinyList)
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = [0, 5, 11, 101])
+    @DisplayName("filter() - finds even numbers from the list")
+    fun filter() {
+        val size = 101
+        addElements(tinyList, size)
+        val expectedList: TinyList<Int> = TinyListImpl()
+        addEvenNumbers(expectedList, size)
+        Assertions.assertEquals(expectedList, tinyList.filter { it % 2 == 0 })
     }
 }
