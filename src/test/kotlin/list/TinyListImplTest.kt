@@ -12,18 +12,20 @@ internal class TinyListImplTest {
     private lateinit var tinyList: TinyList<Int>
 
     private fun addElements(tinyList: TinyList<Int>, number: Int) {
-        var index = 0
-        while (index < number) {
+        for (index in 0 until number) {
             tinyList.add(index)
-            index++
         }
     }
 
     private fun addEvenNumbers(tinyList: TinyList<Int>, number: Int) {
-        var index = 0
-        while (index < number) {
+        for (index in 0 until number step 2) {
             tinyList.add(index)
-            index += 2
+        }
+    }
+
+    private fun createStringElements(tinyList: TinyList<String>, number: Int) {
+        for (index in 0 until number) {
+            tinyList.add(index.toString())
         }
     }
 
@@ -159,6 +161,27 @@ internal class TinyListImplTest {
 
     @ParameterizedTest
     @ValueSource(ints = [0, 5, 11, 101])
+    @DisplayName("filter() - finds even numbers from the list")
+    fun filter() {
+        val size = 101
+        addElements(tinyList, size)
+        val expectedList: TinyList<Int> = TinyListImpl()
+        addEvenNumbers(expectedList, size)
+        Assertions.assertEquals(expectedList, tinyList.filter { it % 2 == 0 })
+    }
+
+    @Test
+    fun map() {
+        val size = 11
+        addElements(tinyList, size)
+        val actualList = tinyList.map { it.toString() }
+        val expectedList: TinyList<String> = TinyListImpl()
+        createStringElements(expectedList, size)
+        Assertions.assertEquals(expectedList, actualList)
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = [0, 5, 11, 101])
     fun equals(number: Int) {
         addElements(tinyList, number)
         val expectedList = TinyListImpl<Int>()
@@ -186,16 +209,5 @@ internal class TinyListImplTest {
         expectedList.add(3)
         expectedList.add(5)
         Assertions.assertFalse(expectedList == tinyList)
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints = [0, 5, 11, 101])
-    @DisplayName("filter() - finds even numbers from the list")
-    fun filter() {
-        val size = 101
-        addElements(tinyList, size)
-        val expectedList: TinyList<Int> = TinyListImpl()
-        addEvenNumbers(expectedList, size)
-        Assertions.assertEquals(expectedList, tinyList.filter { it % 2 == 0 })
     }
 }

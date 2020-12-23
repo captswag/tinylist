@@ -8,4 +8,5 @@ interface TinyList<T : Any> {
     fun elementAt(index: Int): T // Throws IndexOutOfBoundsException if index >= size
     operator fun iterator(): Iterator<T>
     fun filter(predicate: (T) -> Boolean): TinyList<T>
+    fun <R : Any> map(transform: (T) -> R): TinyList<R>
 }
