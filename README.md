@@ -25,4 +25,4 @@ interface TinyList<T : Any> {
 ### Bonus code
 
 - Write unit tests (JUnit 5)
-- Setup Github actions (CI pipeline to run unit tests whenever a PR is raised to master)
+- Setup Github actions (CI pipeline to run unit tests whenever a PR is raised to main branch)
