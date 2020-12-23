@@ -91,6 +91,17 @@ class TinyListImpl<T : Any> : TinyList<T>, Iterator<T> {
         return filteredTinyList
     }
 
+    @Suppress("UNCHECKED_CAST")
+    override fun <R : Any> map(transform: (T) -> R): TinyList<R> {
+        val transformedList: TinyList<R> = TinyListImpl()
+        var index = 0
+        while (index < currentIndex) {
+            val element = elements[index++]
+            transformedList.add(transform(element as T))
+        }
+        return transformedList
+    }
+
     /**
      * equals() function is required to be overridden because == checks for two TinyLists are checked
      * based on the variable it's pointed to. So for two different objects, they're always false,
